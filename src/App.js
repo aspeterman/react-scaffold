@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import PersonList from './PersonList'
+import PersonEdit from './PersonEdit'
+
+class App extends Component {
+  state = {
+    people: [
+      {firstName: 'Alan', lastName: 'Turing'}
+    ],
+    view: 'PersonList',
+
+  }
+
+  onEdit = (person) => {
+    this.setState({
+      view: 'PersonEdit',
+      selectedPerson: person
+    })
+  }
+
+  get currentView() {
+    if (this.state.view === 'PersonEdit') {
+      return <PersonEdit person={this.state.selectedPerson}/>
+    }
+
+    return <PersonList people={this.state.people} onEdit={this.onEdit}/>
+  }
+
+  render() {
+    return (
+      <div className="App">
+        {this.currentView}
+      </div>
+    )
+  };
 }
 
-export default App;
+export default App
